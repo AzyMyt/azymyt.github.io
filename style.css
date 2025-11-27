@@ -1,9 +1,21 @@
 body {
-    background-color: #ffffff;
+    text-align: center;
+    background-color: #000000;
+    font-family:
+        system-ui,
+        -apple-system,
+        "Segoe UI",
+        Roboto,
+        "Helvetica Neue",
+        Arial;
+}
+
+* {
+    color: #ffffff;
 }
 
 .card {
-    background-color: #dddddd;
+    position: relative;
     border-radius: 5px;
     max-height: 500px;
     color: black;
@@ -11,6 +23,53 @@ body {
     display: inline-flex;
     justify-content: space-between;
     padding: 10px;
+    overflow: hidden;
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: var(--bg-url);
+    background-size: cover;
+    background-position: center;
+    filter: blur(40px) brightness(0.5);
+    transform: scale(1.1);
+    z-index: -1;
+}
+
+.card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: var(--bg-url);
+    background-size: cover;
+    background-position: center;
+    filter: blur(40px) brightness(2);
+
+    padding: 5px;
+
+    mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+
+    mask-composite: exclude;
+    -webkit-mask-composite: xor;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.card > * {
+    position: relative;
+    z-index: 2;
+}
+
+.card:hover {
+    scale: 1.1;
 }
 
 .upperDetails {
@@ -18,6 +77,7 @@ body {
     grid-template-columns: 2fr 1fr;
     padding: 0;
     margin: 0;
+    text-align: left;
 }
 
 #date {
@@ -25,45 +85,49 @@ body {
 }
 
 .details {
+    width: 1200px;
     display: grid;
     margin-left: 10px;
 }
 
 .stats {
-    background-color: #bbbbbb;
-    border-radius: 5px;
     display: grid;
-    width: 1000px;
-    grid-template-columns: repeat(8, 12%);
+    grid-template-columns: 1fr 1fr;
 }
 
-.wfText,
-.attemptsText,
-.peakText,
-.peakListText {
-    display: block;
-    text-align: left;
-    border-bottom: 2px solid black;
-}
-
-.wf,
-.attempts,
-.peak,
-.peakList,
-.aem,
-.gddl,
-.nlw,
-.enj {
-    display: block;
+.table {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    margin: 2%;
+    align-items: center;
     text-align: center;
 }
 
-.aemText,
-.gddlText,
-.nlwText,
-.enjText {
-    transform: rotate(90deg);
-    transform-origin: left top;
-    text-align: left;
-    left: 15px;
+.block {
+    display: grid;
+    align-items: center;
+}
+
+.aem,
+.gddl,
+.enj,
+.attempts,
+.wf,
+.peak,
+.peakList {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-size: 32px;
+    align-items: center;
+    text-align: center;
+}
+
+.nlw {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-size: 32px;
+    align-items: center;
+    text-align: center;
 }
