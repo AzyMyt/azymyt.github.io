@@ -41,8 +41,8 @@ fetch(url)
       } else if (item.NLW == "") {
         return;
       } else {
-        div.innerHTML += `<img src="novideo.png" width=${thumbWidth} height=${thumbHeight}>`;
-        div.style.setProperty("--bg-url", `url("novideo.png")`);
+        div.innerHTML += `<img src="../images/novideo.png" width=${thumbWidth} height=${thumbHeight}>`;
+        div.style.setProperty("--bg-url", `url("../images/novideo.png")`);
       }
 
       //hell on earth
