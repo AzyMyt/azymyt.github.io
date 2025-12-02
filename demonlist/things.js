@@ -4,6 +4,8 @@ const key = "AIzaSyCBmzuL3Z3NORg7j5Jtfq791Y8Hf7Yq0DU";
 const url = `https://sheets.googleapis.com/v4/spreadsheets/${id}/values/${encodeURIComponent(range)}?key=${key}`;
 
 // I WANT TO ADD LIKE A TIME MACHINE AND uh SORTING BY THINGS later
+// also a smaller card view like how gddl does it
+// and one like how aredl does it, so i can include all the rest of my completions
 
 //tweaky
 const size = 20;
@@ -55,45 +57,30 @@ fetch(url)
 
         <div class="stats">
           <div class="table">
-            <div class="block">
+            <div class="brick">
               <p class="aem">${item.AEM}</p>
-              <p class="aemText">AEM</p>
-            </div>
-
-            <div class="block">
               <p class="gddl">${item.GDDL}</p>
-              <p class="gddlText">GDDL</p>
-            </div>
-
-            <div class="block">
               <p class="nlw">${item.NLW}</p>
-              <p class="nlwText">NLW</p>
-            </div>
-
-            <div class="block">
               <p class="enj">${item.Enj}</p>
+            </div>
+            <div class="brick">
+              <p class="aemText">AEM</p>
+              <p class="gddlText">GDDL</p>
+              <p class="nlwText">NLW</p>
               <p class="enjText">ENJ</p>
             </div>
           </div>
-
           <div class="table">
-            <div class="block">
+            <div class="brick">
               <p class="attempts">${item.ATT}</p>
-              <p class="attemptsText">Attempts</p>
-            </div>
-
-            <div class="block">
               <p class="wf">${item.WF}</p>
-              <p class="wfText">Worst Fail</p>
-            </div>
-
-            <div class="block">
-              <p class="peak">${item.Peak}</p>
-              <p class="peakText">Peak</p>
-            </div>
-
-            <div class="block">
               <p class="peakList">${item.ListPeak}</p>
+              <p class="peak">${item.Peak}</p>
+            </div>
+            <div class="brick">
+              <p class="attemptsText">Attempts</p>
+              <p class="wfText">Worst Fail</p>
+              <p class="peakText">Peak</p>
               <p class="peakListText">Peak List</p>
             </div>
           </div>
