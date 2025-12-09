@@ -5,6 +5,9 @@
 
 a {
     font-size: 16px;
+    display: grid;
+    grid-template-columns: 1fr;
+    text-align: left;
     margin-bottom: 4px;
 }
 
