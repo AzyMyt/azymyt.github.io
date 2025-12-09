@@ -1,0 +1,37 @@
+* {
+    color: #fff;
+    border-radius: 10px;
+    font-size: 24px;
+    margin: 10px;
+    padding: 10px;
+}
+
+body {
+    text-align: center;
+    background-color: black;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+#ups {
+    background-color: #211;
+}
+
+#downs {
+    background-color: #112;
+}
+
+.minicontainer {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    background-color: #121;
+}
+
+.labels {
+    margin: 10px;
+    padding: 10px;
+    background-color: #111;
+}
