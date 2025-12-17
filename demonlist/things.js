@@ -3,6 +3,9 @@ const range = "Classics!A1:O179";
 const key = "AIzaSyCBmzuL3Z3NORg7j5Jtfq791Y8Hf7Yq0DU";
 const url = `https://sheets.googleapis.com/v4/spreadsheets/${id}/values/${encodeURIComponent(range)}?key=${key}`;
 
+const cardsPassed = false;
+const styling = "legacy";
+
 // I WANT TO ADD LIKE A TIME MACHINE AND uh SORTING BY THINGS later
 // also a smaller card view like how gddl does it
 // and one like how aredl does it, so i can include all the rest of my completions
@@ -25,6 +28,8 @@ fetch(url)
     // cards
     data.forEach((item) => {
       const div = document.createElement("div");
+      if (item.AEM >= 13) {
+
       div.classList.add("card");
       if (item.Link != "") {
         const completionID = item.Link.match(
@@ -40,13 +45,16 @@ fetch(url)
           <img src="https://img.youtube.com/vi/${completionID}/maxresdefault.jpg" width=${thumbWidth} height=${thumbHeight}>
           </a>
         `;
-      } else if (item.NLW == "") {
-        return;
       } else {
         div.innerHTML += `<img src="../images/novideo.png" width=${thumbWidth} height=${thumbHeight}>`;
         div.style.setProperty("--bg-url", `url("../images/novideo.png")`);
       }
-
+      } else {
+	div.classList.add("record");
+      }
+      
+      if (styling == "legacy") {
+      if (item.AEM >= 13) {
       //hell on earth
       div.innerHTML += `
       <div class="details">
@@ -74,8 +82,8 @@ fetch(url)
             <div class="brick">
               <p class="attempts">${item.ATT}</p>
               <p class="wf">${item.WF}</p>
-              <p class="peakList">${item.ListPeak}</p>
               <p class="peak">${item.Peak}</p>
+              <p class="peakList">${item.ListPeak}</p>
             </div>
             <div class="brick">
               <p class="attemptsText">Attempts</p>
@@ -86,8 +94,27 @@ fetch(url)
           </div>
         </div>
       </div>
-      `;
+      `
+      } else {
+      div.innerHTML += `
+      <div class="details">
+	<div class="stats">
+	     <div class="title">
+	          <p>#${item.Pos}: ${item.Level} by ${item.Publisher}</p>
+	      </div>
+              <p class="aem">${item.AEM}</p>
+              <p class="gddl">${item.GDDL}</p>
+              <p class="enj">${item.Enj}</p>
 
+              <p class="attempts">${item.ATT}</p>
+              <p class="wf">${item.WF}</p>
+              <p class="peak">${item.Peak}</p>
+
+              <p id="date">${item.Date}</p>
+            </div>
+      </div>
+      `}};
       document.body.appendChild(div);
     });
+    console.log(`styling: ${styling}`);
   });
