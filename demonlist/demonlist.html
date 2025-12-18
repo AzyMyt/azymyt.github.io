@@ -10,17 +10,36 @@
         content="My personal Geometry Dash demon list"
     />
 
-    <script src="things.js"></script>
+    <script src="things.js" defer></script>
     <link rel="stylesheet" href="styleDL.css"></link>
 </head>
 
 <h1>AzyMyt Demon List</h1>
-    <p>and more later...</p>
-    <img src="../images/image.png" width="1480px">
-    <br>
-    <a href="https://docs.google.com/spreadsheets/d/1dIL3JjvLz9QGQPUxDUlIIZmjR2kRAXtgMel7Fyil-j4/edit?usp=sharing" target="_blank">Sheet version</a>
-    <br>
+<p>and more later...</p>
+<img src="../images/image.png" width="1200px">
+<br>
+<a href="https://docs.google.com/spreadsheets/d/1dIL3JjvLz9QGQPUxDUlIIZmjR2kRAXtgMel7Fyil-j4/edit?usp=sharing" target="_blank">Sheet version</a>
+<br>
+
+<div class="options">
+    <div class="selections">
+        <p>View</p>
+        <button class="btnToggle" id="legacy">Legacy</button>
+        <button class="btnToggle" id="modern">Modern</button>
+        <button class="btnToggle" id="grid">Grid</button>
+    </div>
+    <div class="selections">
+        <p>Type</p>
+        <button class="btnToggleType" id="classics">Classics</button>
+        <button class="btnToggleType" id="platformers">Platformers</button>
+    </div>
+</div>
+<br>
+
+<p class="disclaimer">"Modern" implementation missing</p>
 
 <body>
+    <div id="list">
 
+    </div>
 </body>
