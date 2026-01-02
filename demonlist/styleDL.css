@@ -21,7 +21,7 @@ body {
     color: #ffffff;
 }
 
-.card {
+.card.legacy {
     position: relative;
     border-radius: 5px;
     height: 180px; /* hardcoding cuz im stupid - this this thumbnail height*/
@@ -82,6 +82,74 @@ body {
     }
 }
 
+.card.modern {
+    position: relative;
+    line-height: 0;
+    border-radius: 5px;
+    height: 120px; /* hardcoding cuz im stupid - this this thumbnail height*/
+    color: black;
+    width: 70%;
+    margin: 0px;
+    padding: 0px;
+    display: inline-flex;
+    justify-content: space-between;
+    overflow: hidden;
+    align-items: flex-start;
+    & p {
+        margin: 0;
+        padding: 15px;
+        font-size: 30px;
+    }
+    & .detailsModern {
+        display: grid;
+        grid-template-columns: 1fr 5fr 3fr 2fr 2fr 2fr;
+        margin: 1%;
+        width: 100%;
+        padding: 0 2% 0 2%;
+        text-align: left;
+        border-radius: 10px;
+    }
+    & .lvlWrapper {
+        display: inline-flex;
+        flex-direction: column;
+        text-align: left;
+        & .lvlTitle {
+            font-size: 40px;
+        }
+        & .lvlPublisher {
+            font-size: 20px;
+        }
+    }
+    & .difficulties {
+        margin-top: 5px;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        & .numberWrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+    & .peaks,
+    .effort {
+        margin-top: 5px;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+    & .enjModern,
+    .lvlPlace {
+        text-align: center;
+        align-items: center;
+        line-height: 1.2;
+    }
+    & .dateModern {
+        font-size: 20px;
+    }
+}
+
 .card::before {
     content: "";
     position: absolute;
@@ -89,9 +157,13 @@ body {
     background-image: var(--bg-url);
     background-size: cover;
     background-position: center;
-    filter: blur(40px) brightness(0.5);
+    filter: blur(20px) brightness(0.7);
     transform: scale(1.1);
     z-index: -1;
+}
+
+.card.modern::before {
+    filter: blur(0px) brightness(0.5);
 }
 
 .card::after {
@@ -179,10 +251,4 @@ body {
             border-radius: 10px;
         }
     }
-}
-
-.disclaimer {
-    position: absolute;
-    top: 2%;
-    right: 5%;
 }

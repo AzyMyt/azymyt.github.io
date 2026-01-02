@@ -7,177 +7,203 @@ const classicUrl = `https://sheets.googleapis.com/v4/spreadsheets/${classicsId}/
 const platformerUrl = `https://sheets.googleapis.com/v4/spreadsheets/${platformersId}/values/${encodeURIComponent(platformersRange)}?key=${key}`;
 
 const cardsPassed = false;
-
 // I WANT TO ADD LIKE A TIME MACHINE AND uh SORTING BY THINGS later
-// also a smaller card view like how gddl does it
-// and one like how aredl does it, so i can include all the rest of my completions
-
 //tweaky
 const size = 20;
 const thumbHeight = size * 9;
 const thumbWidth = size * 16;
 console.log(`${thumbWidth}x${thumbHeight}`);
 
-let styling = "legacy"; // default
+//brick programming 101
+let url = classicUrl;
 let currentStyle;
-function updateStyling(updateValue) {
-  if (currentStyle != updateValue) {
-    btnLegacy.style.setProperty("background-color", "#000");
-    btnModern.style.setProperty("background-color", "#000");
-    btnGrid.style.setProperty("background-color", "#000");
-
-    btnLegacy.style.setProperty("color", "#fff");
-    btnModern.style.setProperty("color", "#fff");
-    btnGrid.style.setProperty("color", "#fff");
-
-    if (updateValue == "legacy") {
-      btnLegacy.style.setProperty("background-color", "#fff");
-      btnLegacy.style.setProperty("color", "#000");
-      styling = "legacy";
-    } else if (updateValue == "modern") {
-      btnModern.style.setProperty("background-color", "#fff");
-      btnModern.style.setProperty("color", "#000");
-      styling = "modern";
-    } else if (updateValue == "grid") {
-      btnGrid.style.setProperty("background-color", "#fff");
-      btnGrid.style.setProperty("color", "#000");
-      styling = "grid";
-    }
-    GenerateList();
-  }
-  currentStyle = updateValue;
-  console.log(`Style changed to ${styling}`);
-}
-
-let type = "classics"; // default
 let currentType;
-let url;
-function updateType(updateValue) {
-  if (currentType != updateValue) {
-    btnClassics.style.setProperty("background-color", "#000");
-    btnPlatformers.style.setProperty("background-color", "#000");
 
-    btnClassics.style.setProperty("color", "#fff");
-    btnPlatformers.style.setProperty("color", "#fff");
+//defaults
+let styling = "modern";
+let type = "classics";
 
-    if (updateValue == "classics") {
-      btnClassics.style.setProperty("background-color", "#fff");
-      btnClassics.style.setProperty("color", "#000");
-      type = "classics";
-      url = classicUrl;
-    } else if (updateValue == "platformers") {
-      btnPlatformers.style.setProperty("background-color", "#fff");
-      btnPlatformers.style.setProperty("color", "#000");
-      type = "platformers";
-      url = platformerUrl;
-    }
-    console.log(`List now displays ${type}`);
-    GenerateList();
-  }
-  currentType = updateValue;
-}
-
-btnLegacy = document.getElementById("legacy");
-btnModern = document.getElementById("modern");
-btnGrid = document.getElementById("grid");
-btnClassics = document.getElementById("classics");
-btnPlatformers = document.getElementById("platformers");
+const btnLegacy = document.getElementById("legacy");
+const btnModern = document.getElementById("modern");
+const btnGrid = document.getElementById("grid");
 
 btnLegacy.addEventListener("click", () => updateStyling("legacy"));
 btnModern.addEventListener("click", () => updateStyling("modern"));
 btnGrid.addEventListener("click", () => updateStyling("grid"));
 
+const styleButtons = {
+  legacy: btnLegacy,
+  modern: btnModern,
+  grid: btnGrid,
+};
+
+const btnClassics = document.getElementById("classics");
+const btnPlatformers = document.getElementById("platformers");
+
 btnClassics.addEventListener("click", () => updateType("classics"));
 btnPlatformers.addEventListener("click", () => updateType("platformers"));
 
-document.getElementById("list");
+const typeButtons = {
+  classics: btnClassics,
+  platformers: btnPlatformers,
+};
 
-updateStyling(styling);
-updateType(type);
+list = document.getElementById("list");
 
-// garbage responsible for generating the list below, currently only for "legacy" styling
-function GenerateList() {
+function updateActiveButton(buttonMap, activeKey) {
+  Object.entries(buttonMap).forEach(([key, btn]) => {
+    btn.style.backgroundColor = key === activeKey ? "#fff" : "#000";
+    btn.style.color = key === activeKey ? "#000" : "#fff";
+  });
+}
+
+function updateStyling(newStyle) {
+  if (currentStyle === newStyle) return;
+  updateActiveButton(styleButtons, newStyle);
+  styling = currentStyle = newStyle;
+  GenerateList();
+}
+
+function updateType(newType) {
+  if (currentType === newType) return;
+  updateActiveButton(typeButtons, newType);
+  type = currentType = newType;
+  GenerateList();
+}
+
+// defaults
+updateActiveButton(styleButtons, styling);
+updateActiveButton(typeButtons, type);
+
+async function GenerateList() {
+  console.log("Fetching URL:", url);
   list.innerHTML = "";
-  fetch(url)
-    .then((r) => r.json())
-    .then((json) => {
-      const [headers, ...rows] = json.values;
-      const data = rows.map((r) =>
-        Object.fromEntries(r.map((v, i) => [headers[i], v])),
-      );
-      console.log(data);
 
-      // cards
-      data.forEach((item) => {
-        const div = document.createElement("div");
-        if (item.AEM >= 13) {
-          div.classList.add("card");
-          if (item.Link != "") {
-            const completionID = item.Link.match(
-              /(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]{11})/,
-            )[1];
-            console.log(item.Link, completionID);
-            div.style.setProperty(
-              "--bg-url",
-              `url("https://img.youtube.com/vi/${completionID}/maxresdefault.jpg")`,
-            );
-            div.innerHTML = `
-          <a href="${item.Link}" target="_blank">
-          <img src="https://img.youtube.com/vi/${completionID}/maxresdefault.jpg" width=${thumbWidth} height=${thumbHeight}>
-          </a>
+  try {
+    const response = await fetch(url);
+    const json = await response.json();
+
+    const [headers, ...rows] = json.values;
+    const data = rows.map((row) =>
+      Object.fromEntries(row.map((v, i) => [headers[i], v])),
+    );
+
+    console.log(data);
+
+    data.forEach(renderCard);
+  } catch (err) {
+    console.error("Failed to fetch data:", err);
+  }
+}
+
+function renderCard(item) {
+  const entry = document.createElement("div");
+  entry.classList.add("card");
+  entry.classList.add(styling);
+  entry.classList.add(type);
+
+  if (item.NLW?.trim() && item.Link?.trim()) {
+    entry.classList.add("card");
+    const completionID = item.Link.match(
+      /(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]{11})/,
+    )[1];
+
+    console.log(item.Link, completionID);
+    entry.style.setProperty(
+      "--bg-url",
+      `url("https://img.youtube.com/vi/${completionID}/maxresdefault.jpg")`,
+    );
+
+    if (styling !== "modern") {
+      entry.innerHTML = `
+      <a href="${item.Link}" target="_blank">
+      <img src="https://img.youtube.com/vi/${completionID}/maxresdefault.jpg" width=${thumbWidth} height=${thumbHeight}>
+      </a>
+    `;
+    }
+
+    if (styling == "legacy") {
+      //I really do not know how i managed to make it htis bad
+      entry.innerHTML += `
+        <div class="details">
+          <div class="upperDetails">
+            <h1>#${item.Pos}: ${item.Level} by ${item.Publisher}</h1>
+            <h1 id="date">${item.Date}</h1>
+          </div>
+
+          <div class="stats">
+            <div class="table">
+              <div class="brick">
+                <p class="aem">${item.AEM}</p>
+                <p class="gddl">${item.GDDL}</p>
+                <p class="nlw">${item.NLW}</p>
+                <p class="enj">${item.Enj}</p>
+              </div>
+              <div class="brick">
+                <p class="aemText">AEM</p>
+                <p class="gddlText">GDDL</p>
+                <p class="nlwText">NLW</p>
+                <p class="enjText">ENJ</p>
+              </div>
+            </div>
+            <div class="table">
+              <div class="brick">
+                <p class="attempts">${item.ATT}</p>
+                <p class="wf">${item.WF}</p>
+                <p class="peak">${item.Peak}</p>
+                <p class="peakList">${item.ListPeak}</p>
+              </div>
+              <div class="brick">
+                <p class="attemptsText">Attempts</p>
+                <p class="wfText">Worst Fail</p>
+                <p class="peakText">Peak</p>
+                <p class="peakListText">Peak List</p>
+              </div>
+            </div>
+          </div>
+        </div>
         `;
-          } else {
-            div.innerHTML += `<img src="../images/novideo.png" width=${thumbWidth} height=${thumbHeight}>`;
-            div.style.setProperty("--bg-url", `url("../images/novideo.png")`);
-          }
-        } else {
-          div.classList.add("record");
-        }
-
-        if (styling == "legacy") {
-          if (item.AEM >= 13) {
-            //hell on earth
-            div.innerHTML += `
-      <div class="details">
-        <div class="upperDetails">
-          <h1>#${item.Pos}: ${item.Level} by ${item.Publisher}</h1>
-          <h1 id="date">${item.Date}</h1>
-        </div>
-
-        <div class="stats">
-          <div class="table">
-            <div class="brick">
-              <p class="aem">${item.AEM}</p>
-              <p class="gddl">${item.GDDL}</p>
-              <p class="nlw">${item.NLW}</p>
-              <p class="enj">${item.Enj}</p>
-            </div>
-            <div class="brick">
-              <p class="aemText">AEM</p>
-              <p class="gddlText">GDDL</p>
-              <p class="nlwText">NLW</p>
-              <p class="enjText">ENJ</p>
-            </div>
+    } else if (styling == "modern") {
+      entry.innerHTML += `
+        <div class="detailsModern">
+          <p class="lvlPlace">#${item.Pos}:</p>
+          <div class="lvlWrapper">
+            <p class="lvlTitle">${item.Level}</p>
+            <p class="lvlPublisher">${item.Publisher}</p>
+            <p class="dateModern">${item.Date}</p>
           </div>
-          <div class="table">
-            <div class="brick">
-              <p class="attempts">${item.ATT}</p>
-              <p class="wf">${item.WF}</p>
-              <p class="peak">${item.Peak}</p>
-              <p class="peakList">${item.ListPeak}</p>
+
+          <div class="difficulties">
+            <div class="numberWrapper">
+              <p class="aemModern">${item.AEM}</p>
+              <p class="gddlModern">${item.GDDL}</p>
             </div>
-            <div class="brick">
-              <p class="attemptsText">Attempts</p>
-              <p class="wfText">Worst Fail</p>
-              <p class="peakText">Peak</p>
-              <p class="peakListText">Peak List</p>
-            </div>
+            <p class="nlwModern">${item.NLW}</p>
+          </div>
+          <p class="enjModern">${item.Enj}</p>
+
+          <div class="effort">
+            <p class="wfModern">${item.WF}</p>
+            <p class="attemptsModern">${item.ATT}</p>
+          </div>
+
+          <div class="peaks">
+            <p class="peakModern">${item.Peak}</p>
+            <p class="listPeakModern">${item.ListPeak}</p>
           </div>
         </div>
-      </div>
-      `;
-          } else {
-            div.innerHTML += `
+        `;
+    }
+    list.appendChild(entry);
+  } else if (item.NLW && !item.Link) {
+    entry.classList.add("card");
+    entry.innerHTML += `<img src="../images/novideo.png" width=${thumbWidth} height=${thumbHeight}>`;
+    entry.style.setProperty("--bg-url", `url("../images/novideo.png")`);
+  } else {
+    //no nlw / lesser completions (this just does not work whatsoever just yet)
+    entry.classList.add("record");
+    if (styling == "legacy") {
+      entry.innerHTML += `
       <div class="details">
         <div class="stats">
           <div class="title">
@@ -195,12 +221,9 @@ function GenerateList() {
           </div>
         </div>
       </div>
-      `;
-          }
-        }
-        list.appendChild(div);
-      });
-    });
+    `;
+    }
+  }
 }
-
+GenerateList();
 console.log(styling, type);
