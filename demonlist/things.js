@@ -6,8 +6,9 @@ const key = "AIzaSyCBmzuL3Z3NORg7j5Jtfq791Y8Hf7Yq0DU";
 const classicUrl = `https://sheets.googleapis.com/v4/spreadsheets/${classicsId}/values/${encodeURIComponent(classicsRange)}?key=${key}`;
 const platformerUrl = `https://sheets.googleapis.com/v4/spreadsheets/${platformersId}/values/${encodeURIComponent(platformersRange)}?key=${key}`;
 
-const cardsPassed = false;
 // I WANT TO ADD LIKE A TIME MACHINE AND uh SORTING BY THINGS later
+// also want sliders/config for each entries background blur
+
 //tweaky
 const size = 20;
 const thumbHeight = size * 9;
@@ -91,10 +92,20 @@ async function GenerateList() {
     console.log(data);
 
     data.forEach(renderCard);
+
+    if (styling == "grid") {
+      list.classList.add("gridstyle");
+    } else {
+      if (list.classList.contains("gridstyle")) {
+        list.classList.remove("gridstyle");
+      }
+    }
   } catch (err) {
     console.error("Failed to fetch data:", err);
   }
 }
+
+// idk what im gonna do for the number colours
 
 function renderCard(item) {
   const entry = document.createElement("div");
