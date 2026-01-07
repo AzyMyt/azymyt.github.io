@@ -1,7 +1,8 @@
 body {
     background:
-        linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+        linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.8)),
         url("../images/clear.png") center / cover no-repeat;
+
     background-attachment: fixed;
     min-height: 100vh;
     margin: 0;
@@ -89,6 +90,7 @@ body {
     color: black;
     width: 70%;
     margin: auto;
+    margin-top: 5px;
     padding: 0px;
     display: flex;
     justify-content: space-between;
@@ -158,13 +160,16 @@ body {
 }
 
 .gridstyle {
-    display: grid;
-    margin: 7%;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 0;
+    justify-content: center;
 }
 
 .card.modern::before,
 .card.legacy::before {
+    border-radius: 5px;
     content: "";
     position: absolute;
     inset: 0;
@@ -185,6 +190,7 @@ body {
     content: "";
     position: absolute;
     inset: 0;
+    border-radius: 5px;
     background-image: var(--bg-url);
     background-size: cover;
     background-position: center;
@@ -239,28 +245,32 @@ body {
 
 .options {
     position: absolute;
-    right: 5%;
-    top: 5%;
-    display: inline-flex;
-    flex-direction: column;
-    width: 150px;
+    left: 2%;
+    top: 1%;
+    display: grid;
     text-align: center;
     margin: 10px;
     gap: 10px;
     & .selections {
-        display: grid;
+        display: flex;
         justify-items: center;
         gap: 5px;
-        background-color: rgba(0, 0, 0, 0.5);
+        background-color: rgba(255, 255, 255, 0.1);
         border-radius: 10px;
         padding: 10px;
+        & .selectionContainer {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 5%;
+        }
         & p {
             font-size: 24px;
             line-height: 0px;
         }
         & button {
             font-size: 18px;
-            width: 90%;
+            width: 100px;
             height: 40px;
             color: #000;
             border-radius: 10px;

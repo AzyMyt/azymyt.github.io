@@ -90,7 +90,6 @@ async function GenerateList() {
     );
 
     console.log(data);
-
     data.forEach(renderCard);
 
     if (styling == "grid") {
@@ -105,7 +104,19 @@ async function GenerateList() {
   }
 }
 
-// idk what im gonna do for the number colours
+//one higher than the highest
+const ENJvalues = Array.from({ length: 13 }, (_, i) => i - 1);
+const AEMvalues = Array.from({ length: 37 }, (_, i) => i);
+const GDDLvalues = Array.from({ length: 40 }, (_, i) => i);
+
+function valueToColour(value, min, max) {
+  const t = (value - min) / (max - min);
+  const h = 240 - t * 240;
+  return `hsl(${h}, 80%, 50%)`;
+}
+
+//hardcode nlw because its better than assigning 400 static variables
+console.log(ENJvalues, AEMvalues, GDDLvalues);
 
 function renderCard(item) {
   const entry = document.createElement("div");
@@ -205,6 +216,7 @@ function renderCard(item) {
         </div>
         `;
     }
+
     list.appendChild(entry);
   } else if (item.NLW && !item.Link) {
     entry.classList.add("card");
