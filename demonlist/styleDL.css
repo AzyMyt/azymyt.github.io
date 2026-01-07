@@ -99,7 +99,7 @@ body {
     & p {
         margin: 0;
         padding: 15px;
-        font-size: 30px;
+        font-size: 26px;
     }
     & .detailsModern {
         display: grid;

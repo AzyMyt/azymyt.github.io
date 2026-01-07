@@ -156,10 +156,10 @@ function renderCard(item) {
           <div class="stats">
             <div class="table">
               <div class="brick">
-                <p class="aem">${item.AEM}</p>
-                <p class="gddl">${item.GDDL}</p>
+                <p class="aem">A${item.AEM}</p>
+                <p class="gddl">T${item.GDDL}</p>
                 <p class="nlw">${item.NLW}</p>
-                <p class="enj">${item.Enj}</p>
+                <p class="enj">${item.Enj}/10</p>
               </div>
               <div class="brick">
                 <p class="aemText">AEM</p>
@@ -197,16 +197,16 @@ function renderCard(item) {
 
           <div class="difficulties">
             <div class="numberWrapper">
-              <p class="aemModern">${item.AEM}</p>
-              <p class="gddlModern">${item.GDDL}</p>
+              <p class="aemModern">A${item.AEM}</p>
+              <p class="gddlModern">T${item.GDDL}</p>
             </div>
             <p class="nlwModern">${item.NLW}</p>
           </div>
-          <p class="enjModern">${item.Enj}</p>
+          <p class="enjModern">${item.Enj}/10</p>
 
           <div class="effort">
-            <p class="wfModern">${item.WF}</p>
-            <p class="attemptsModern">${item.ATT}</p>
+            <p class="wfModern">${item.WF} wf</p>
+            <p class="attemptsModern">${item.ATT}@</p>
           </div>
 
           <div class="peaks">
