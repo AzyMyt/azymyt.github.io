@@ -1,78 +1,121 @@
 <!doctype html>
+
 <head>
-    <title>AzyMyt web</title>
+    <title>AzyMyt</title>
     <link rel="icon" href="images/favicon.png" type="image/x-icon" />
-    <meta property="og:title" content="AzyMyt Web" />
+    <meta property="og:title" content="AzyMyt" />
     <meta property="og:image" content="images/favicon.png" />
     <meta property="og:type" content="website" />
-    <meta property="og:description" content="Experimental personal website" />
-    <link rel="stylesheet" href="style.css"></link>
+    <meta
+        property="og:description"
+        content="Experimental personal website, and hub for any of my projects"
+    />
 </head>
 
-<div class="header">
-    <h1>AzyMyt Web</h1>
-</div>
-
 <body>
-<div class="maindiv">
-<div class="sidepanel">
-    <ul>
-    <li><a href="demonlist/demonlist.html">GD Demon List</a></li>
-    <li><a href="spamCalculator/index.html">Spam Delay Calculator</a></li>
-    </ul>
-</div>
+    <div class="sidepane">
+        Geometry Dash
+        <li><a href="GD/DL.html">Demon List</a></li>
+        <li><a href="GD/Spam.html">Spam timer</a></li>
+        <li>
+            <a href="https://AzyMyt.github.io/NIDL">NI Demon List</a>
+        </li>
+        <br />
+        Socials
+        <li>
+            <a href="https://bsky.app/profile/did:plc:3y4qvukkxapfx7h7l5lju3di"
+                >Bluesky</a
+            >
+        </li>
+        <li><a href="https://www.youtube.com/@AzyMyt">YouTube</a></li>
+        <li><a href="https://github.com/AzyMyt">GitHub</a></li>
 
-<div class="contentsplit">
-    <div class="info">
-        <p>I need filler text so you can have some broad stuff about me for now</p>
-
-        <p>Gay genderfluid furry or something like that</p>
-        <p>I do digital art sometimes and I use Linux (because it's more responsive, I'm not a nerd unfortunately)</p>
-        <p>Almost certainly have ADHD and autism</p>
-        <br>
-        <p>Formerly the best GD player in Northern Ireland.</p>
-        <p>Currently 3rd</p>
-
-        <p>🐈</p>
-    </div>
-    <div class="milkdiv">
-    <img class="milkshake" src="images/milkshake.jpg" Width="100%"/>
-    <p>milkshake</p>
-    </div>
-</div>
-
-<div class="bottomextras">
-    <div class="gdicon">
-        <img src="images/favicon.png" height="60px"/>
-    </div>
-    <div class="media">
-        <a href="https://bsky.app/profile/did:plc:3y4qvukkxapfx7h7l5lju3di">
-            <img src="images/bluesky.png">
-        </a>
-        <a href="https://www.youtube.com/@AzyMyt">
-            <img src="images/youtube.png">
-        </a>
-        <a href="https://github.com/AzyMyt">
-            <img src="images/github.png">
-        </a>
+        <li><a href="https://gdladder.com/profile/9637">GDDL</a></li>
+        <li><a href="https://aredl.net/profile/user/azymyt">AREDL</a></li>
+        <li><a href="https://gdbrowser.com/u/azymyt">GD Browser</a></li>
+        <li>
+            <a
+                href="https://pointercrate.com/demonlist/statsviewer/?player=61903"
+                >PointerCrate</a
+            >
+        </li>
+        <li><a href="https://osu.ppy.sh/users/18913918">Osu!</a></li>
     </div>
 
-    <div class="gaming">
-        <a href="https://gdladder.com/profile/9637">
-            <img src="images/gddl.ico">
-        </a>
-        <a href="https://aredl.net/profile/user/azymyt">
-            <img src="images/aredl.png">
-        </a>
-        <a href="https://gdbrowser.com/u/azymyt">
-            <img src="images/gdbrowser.webp">
-        </a>
-        <a href="https://pointercrate.com/demonlist/statsviewer/?player=61903">
-            <img src="images/demonlist.jpg">
-        </a>
-        <a href="https://osu.ppy.sh/users/18913918">
-            <img src="images/osu.png">
-        </a>
+    <div class="maincontents">
+        <p>
+            Hi
+            <br />
+            <br />
+            I need filler text so you can have some broad stuff about me for now
+            <br />
+            <br />
+            Gay genderfluid furry or something like that
+            <br />
+            <br />
+            I do digital art sometimes and I use Linux (because it's more
+            responsive, I'm not a nerd unfortunately)
+            <br />
+            <br />
+            Noob web dev and programmer I suppose
+            <br />
+            <br />
+            Almost certainly have ADHD and autism
+            <br />
+            <br />
+            Formerly the best GD player in Northern Ireland.
+            <br />
+            Currently 3rd
+            <br />
+            <br />
+            🐈
+        </p>
     </div>
-</div>
+
+    <img src="images/milkshake.jpg" />
 </body>
+
+<style>
+    * {
+        font-family: monospace;
+        font-size: 16px;
+        margin: 0;
+    }
+
+    body {
+        display: grid;
+        grid-template-columns: 250px 1fr 30%;
+        gap: 20px;
+    }
+
+    li {
+        list-style: none;
+    }
+
+    li::before {
+        content: "- ";
+    }
+
+    .sidepane {
+        color: white;
+        margin: 0;
+        padding-top: 20px;
+        padding-left: 20px;
+        padding-right: 20px;
+        background-color: #443;
+        height: 100vh;
+    }
+
+    .sidepane * {
+        color: white;
+    }
+
+    .maincontents {
+        padding-top: 20px;
+    }
+
+    img {
+        top: 20px;
+        width: 100%;
+    }
+</style>
