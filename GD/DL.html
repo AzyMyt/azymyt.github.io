@@ -15,21 +15,25 @@
 </head>
 
 <body>
-<div class="contents">
+    <div class="contents">
 
         <img src="../images/image.png" width="100%" style="border-radius: 10px;">
-        <br>
 
-        <a href="https://docs.google.com/spreadsheets/d/1dIL3JjvLz9QGQPUxDUlIIZmjR2kRAXtgMel7Fyil-j4/edit?usp=sharing" target="_blank">Sheet version</a>
+        <div class="optionsContainer">
+            <div class="options">
+                <button class="btnToggle" id="modern">List</button>
+                <button class="btnToggle" id="grid">Grid</button>
+            </div>
+            <div class="options">
+                <button class="btnToggleType" id="classics">Classics</button>
+                <button class="btnToggleType" id="platformers">Platformers</button>
+            </div>
+        </div> 
+        
+    </div>
+    <a href="https://docs.google.com/spreadsheets/d/1dIL3JjvLz9QGQPUxDUlIIZmjR2kRAXtgMel7Fyil-j4/edit?usp=sharing" target="_blank">Sheet version</a>
 
-    <div class="options">
-        <button class="btnToggle" id="modern">List</button>
-        <button class="btnToggle" id="grid">Grid</button>
+    <div id="list" class="list">
+    
     </div>
-    <div class="options">
-        <button class="btnToggleType" id="classics">Classics</button>
-        <button class="btnToggleType" id="platformers">Platformers</button>
-    </div>
-</div>
-<div id="list" class="list"></div>
 </body>

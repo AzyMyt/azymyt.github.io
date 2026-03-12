@@ -25,8 +25,8 @@ const styleButtons = {
 
 function updateActiveButton(buttonMap, activeKey) {
   Object.entries(buttonMap).forEach(([key, btn]) => {
-    btn.style.backgroundColor = key === activeKey ? "#fff" : "#000";
-    btn.style.color = key === activeKey ? "#000" : "#222";
+    btn.style.backgroundColor = key === activeKey ? "#bbb" : "#222";
+    btn.style.color = key === activeKey ? "#000" : "#fff";
   });
 }
 
@@ -126,7 +126,7 @@ function renderCard(item) {
           </div>
           <div class="container victors">
             <p class="firstVictor">${item.NLW}<br>A${item.AEM} T${item.GDDL}</p>
-            <p class="followingVictors">${item.ATT} Attempts<br>WF: ${item.WF}<br>${item.Enj}/10</p>
+            <p class="followingVictors">${item.Enj}/10<br>WF: ${item.WF}<br>${item.ATT} Attempts</p>
           </div>
         </div>
         `;
