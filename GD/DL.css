@@ -54,14 +54,15 @@ h3 {
 .card img {
     border-radius: 10px;
 }
+
 .card > * {
     font-size: 40px;
     font-weight:600;
     -webkit-text-stroke:0.6px rgba(0,0,0,0.8);
     text-shadow:
-        0 0 9px #000,
-        0 0 9px #000,
-        0 0 9px #000;
+        0 0 16px #000,
+        0 0 16px #000,
+        0 0 16px #000;
     position: relative;
     z-index: 2;
 }
