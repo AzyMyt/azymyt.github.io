@@ -7,50 +7,102 @@ const btnGrid = document.getElementById("grid");
 const btnClassics = document.getElementById("classics");
 const btnPlatformers = document.getElementById("platformers");
 
-btnModern.addEventListener("click", () => updateStyling("modern"));
-btnGrid.addEventListener("click", () => updateStyling("grid"));
+const btnPersonal = document.getElementById("personal");
+const btnAredl = document.getElementById("aredl");
 
-btnClassics.addEventListener("click", () => updateType("classics"));
-btnPlatformers.addEventListener("click", () => updateType("platformers"));
+btnModern.addEventListener("click", () => {
+  btnModern.style.backgroundColor = "#bbb";
+  btnModern.style.color = "#000";
 
-const typeButtons = {
-  classics: btnClassics,
-  platformers: btnPlatformers,
-};
-
-const styleButtons = {
-  modern: btnModern,
-  grid: btnGrid,
-};
-
-function updateActiveButton(buttonMap, activeKey) {
-  Object.entries(buttonMap).forEach(([key, btn]) => {
-    btn.style.backgroundColor = key === activeKey ? "#bbb" : "#222";
-    btn.style.color = key === activeKey ? "#000" : "#fff";
-  });
-}
-
-function updateStyling(newStyle) {
-  if (currentStyle === newStyle) return;
-  updateActiveButton(styleButtons, newStyle);
-  styling = currentStyle = newStyle;
+  btnGrid.style.backgroundColor = "#222";
+  btnGrid.style.color = "#fff";
+  
+  if (styling == "modern") return;
+  styling = "modern"
   GenerateList();
-}
+});
 
-function updateType(newType) {
-  if (currentType === newType) return;
-  updateActiveButton(typeButtons, newType);
-  type = currentType = newType;
+btnGrid.addEventListener("click", () => {
+  btnGrid.style.backgroundColor = "#bbb";
+  btnGrid.style.color = "#000";
+
+  btnModern.style.backgroundColor = "#222";
+  btnModern.style.color = "#fff";
+  
+  if (styling == "grid") return;
+  styling = "grid"
   GenerateList();
-}
+});
+
+btnModern.style.backgroundColor = "#bbb";
+btnModern.style.color = "#000"
+btnGrid.style.backgroundColor = "#222";
+btnGrid.style.color = "#fff";
+
+btnClassics.addEventListener("click", () => {
+  btnClassics.style.backgroundColor = "#bbb";
+  btnClassics.style.color = "#000";
+
+  btnPlatformers.style.backgroundColor = "#222";
+  btnPlatformers.style.color = "#fff";
+  
+  if (type == "classics") return;
+  type = "classics"
+  GenerateList();
+});
+
+btnPlatformers.addEventListener("click", () => {
+  btnPlatformers.style.backgroundColor = "#bbb";
+  btnPlatformers.style.color = "#000";
+
+  btnClassics.style.backgroundColor = "#222";
+  btnClassics.style.color = "#fff";
+  
+  if (type == "classics") return;
+  type = "platformers"
+  GenerateList();
+});
+
+btnClassics.style.backgroundColor = "#bbb";
+btnClassics.style.color = "#000"
+btnPlatformers.style.backgroundColor = "#222";
+btnPlatformers.style.color = "#fff";
+
+btnPersonal.addEventListener("click", () => {
+  btnPersonal.style.backgroundColor = "#bbb";
+  btnPersonal.style.color = "#000";
+
+  btnAredl.style.backgroundColor = "#222";
+  btnAredl.style.color = "#fff";
+  
+  if (sort == "personal") return;
+  sort = "personal"
+  GenerateList();
+});
+
+btnAredl.addEventListener("click", () => {
+  btnAredl.style.backgroundColor = "#bbb";
+  btnAredl.style.color = "#000";
+
+  btnPersonal.style.backgroundColor = "#222";
+  btnPersonal.style.color = "#fff";
+  
+  if (sort == "aredl") return;
+  sort = "aredl"
+  GenerateList();
+});
+
+btnPersonal.style.backgroundColor = "#bbb";
+btnPersonal.style.color = "#000"
+btnAredl.style.backgroundColor = "#222";
+btnAredl.style.color = "#fff";
 
 let styling = "modern";
 let type = "classics";
+let sort = "personal";
 let currentStyle;
 let currentType;
-
-updateActiveButton(styleButtons, styling);
-updateActiveButton(typeButtons, type);
+let currentSort
 
 const list = document.getElementById("list");
 let data;
@@ -110,6 +162,10 @@ function renderCard(item) {
       </a>
     `;
 
+    if (!item.AREDL) {
+      item.AREDL = "?";
+    }
+
     if (type == "classics" && styling == "modern") {
       entry.innerHTML += `
         <div class="cardContainer" style="background: linear-gradient(
@@ -118,18 +174,49 @@ function renderCard(item) {
         rgba(5, 5, 5, 1)
         ), url('https://img.youtube.com/vi/${completionID}/maxresdefault.jpg');
         background-size: cover;">
-          <div class="container">
-            <div class="level">
-              <p class="textLevel">${item.Level}</p>
-              <p class="textPublisher">by ${item.Publisher}<br>${item.Date}</p>
+        <div class="levelDataUpper">
+          <div class="levelDataLeft">
+            <p class="textLevel">${item.Level}</p>
+            <p class="textPublisher">by ${item.Publisher}</p>
+
+            <p class="textDate smallInfo">${item.Date}</p>
+            <p class="textAttempts smallInfo">${item.ATT} Att</p>
+          </div>
+
+          <div class="levelDataRight">
+            <p class="textNLW" style="
+            background: var(--colour-tier-${item.NLW.replace(/\s+/g, '-')}"
+            >${item.NLW}</p>
+
+            <div class="levelDataBoxes">
+              <p class="boxAEM box" style=
+              "background: var(--colour-aem-${item.AEM})"
+              >A${item.AEM}</p>
+
+              <p class="boxGDDL box" style=
+              "background: var(--colour-tier-${item.GDDL})"
+              >T${item.GDDL}</p>
+
+              <p class="boxENJ box" style=
+              "background: var(--colour-enj-${item.Enj})"
+              >E${item.Enj}</p>
+
+              <p class="boxWF box" style=
+              "background: var(--colour-wf-${item.WF.slice(0, -1)})"
+              >${item.WF}</p>
             </div>
           </div>
-          <div class="container victors">
-            <p class="firstVictor">${item.NLW}<br>A${item.AEM} T${item.GDDL}</p>
-            <p class="followingVictors">${item.Enj}/10<br>WF: ${item.WF}<br>${item.ATT} Attempts</p>
-          </div>
         </div>
-        `;
+        <div class="levelDataLower">
+          <p class="textDate smallInfo" hidden>${item.Date}</p>
+          <p class="textAttempts smallInfo" hidden>${item.ATT} Att</p>
+          <p class="textAredlPos smallInfo" hidden>${item.ListPeak} Peak</p>
+          <p class="textPeak smallInfo" hidden>P${item.Peak}</p>
+          <p class="textAredl smallInfo" hidden>#${item.AREDL}</p>
+        </div>
+      </div>
+      `;
+
     } else if (type == "platformers" && styling == "modern") {
       //platformers
       entry.innerHTML += `
@@ -153,6 +240,7 @@ function renderCard(item) {
         `;
     }
   }
+
   list.appendChild(entry);
 }
 
