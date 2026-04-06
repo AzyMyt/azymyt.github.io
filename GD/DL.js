@@ -1,5 +1,4 @@
 // I WANT TO ADD LIKE A TIME MACHINE AND uh SORTING BY THINGS later
-// also want sliders/config for each entries background blur
 
 const btnModern = document.getElementById("modern");
 const btnGrid = document.getElementById("grid");
@@ -102,11 +101,52 @@ let type = "classics";
 let sort = "personal";
 let currentStyle;
 let currentType;
-let currentSort
+let currentSort;
+
+async function aredlList() {
+  try {
+    const response = await fetch("https://api.aredl.net/v2/api/aredl/levels", {
+      method: "GET",
+      headers: {
+        "Accept": "application/json"
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    
+    console.log (data);
+    return data;
+
+  } catch (error) {
+    console.error("Error fetching levels:", error);
+    return [];
+  }
+}
+
+let cachedLevels = null;
+async function getLevels() {
+  if (!cachedLevels) {
+    cachedLevels = await aredlList();
+  }
+  return cachedLevels;
+}
+
+async function getLevelIdByName(name) {
+  const data = await getLevels();
+
+  const level = data.find(item => item.name === name);
+  return level ? level.level_id : null;
+}
 
 const list = document.getElementById("list");
 let data;
 async function GenerateList() {
+  await getLevels();
   const range =
     type === "classics" ? "Classics!A1:O200" : "Platformers!A1:M153";
   list.innerHTML = "";
@@ -137,11 +177,24 @@ async function GenerateList() {
   }
 }
 
+function getLevelIdByName(name) {
+  const level = cachedLevels.find(item => item.name === name);
+  if (name == "geode") {
+    return 94516000
+  } else{
+    return level ? level.level_id : null;
+  }
+}
+
 function renderCard(item) {
   entry = document.createElement("div");
   entry.classList.add("card");
   entry.classList.add(styling);
   entry.classList.add(type);
+
+  const level_id = getLevelIdByName(item.Level);
+  
+  console.log("level:", item.Level, level_id);
 
   if (item.Level) {
     if (styling == "modern") {
@@ -172,8 +225,8 @@ function renderCard(item) {
         270deg,
         rgba(0, 0, 0, 0),
         rgba(5, 5, 5, 1)
-        ), url('https://img.youtube.com/vi/${completionID}/maxresdefault.jpg');
-        background-size: cover;">
+       ), url('https://levelthumbs.prevter.me/thumbnail/${level_id}');
+       background-size: cover; background-position: center center;">
         <div class="levelDataUpper">
           <div class="levelDataLeft">
             <p class="textLevel">${item.Level}</p>
