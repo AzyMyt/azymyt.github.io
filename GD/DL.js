@@ -259,7 +259,7 @@ async function GenerateList() {
   console.log(`Styling: ${styling}\nType: ${type}\nSort: ${sort}\nDates: ${checkDates}\nDisplay: ${display}`)
 
   let range =
-    type === "classics" ? "Classics!A1:O200" : "Platformers!A1:M153";
+    type === "classics" ? "Classics!A1:O400" : "Platformers!A1:M400";
 
   if (display == "progress") {
     range = "ProjectsNew!A1:D200";
@@ -334,7 +334,7 @@ function renderCard(item) {
       } else {level_position = `#${level_position}`};
       
       if (!item.ListPeak) {
-        ListPeak = "";
+        ListPeak = "(#??)";
       } else {item.ListPeak = `(#${item.ListPeak})`};
       
       if (item.Peak == 1) {
@@ -348,6 +348,26 @@ function renderCard(item) {
       if (!item.ATT) {
         item.ATT = "";
       } else {item.ATT = `${item.ATT} Att`}
+      
+      if (!item.Enj) {
+        item.Enj = "-"
+      }
+      
+      if (!item.WF) {
+        item.WF = "-%"
+      }
+
+      if (!item.NLW) {
+        item.NLW = "Non-Ex"
+      }
+      
+      if (!item.Time) {
+        item.Time = "";
+      }
+
+      if (!item.Date) {
+        item.Date = "";
+      }
       
       
       entry.innerHTML += `
@@ -448,7 +468,7 @@ function renderCard(item) {
            <p class="textPublisher" title="Publisher of the level">by ${item.Publisher}</p>
 
             <p class="textDate smallInfo" title="Date completed">${item.Date}</p>
-            <p class="textAttempts smallInfo" title="Time spent on First Completion">${item.Time} Att</p>
+            <p class="textAttempts smallInfo" title="Time spent on First Completion">${item.Time}</p>
           </div>
 
           <div class="levelDataRight">
