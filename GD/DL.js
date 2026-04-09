@@ -354,7 +354,7 @@ function renderCard(item) {
         ">${item.Peak}</p>
       </div>
       `;
-    } else {
+    } else if (display == "progress") {
       if (!item.Progress) return;
       if (item.Hide) return;
       entry.innerHTML += `<p></p>`
