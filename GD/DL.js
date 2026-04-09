@@ -300,6 +300,11 @@ function getLevelIdByName(name) {
   }
 }
 
+function getLevelPositionByName(name) {
+  const level = cachedLevels.find(item => item.name === name);
+  return level ? level.position : null;
+}
+
 function renderCard(item) {
   entry = document.createElement("div");
   entry.classList.add("card");
@@ -308,6 +313,7 @@ function renderCard(item) {
   entry.classList.add(display);
 
   const level_id = getLevelIdByName(item.Level);
+  let level_position = getLevelPositionByName(item.Level);
   
   //console.log("level:", item.Level, level_id);
 
@@ -322,7 +328,32 @@ function renderCard(item) {
     }
 
     if (styling == "modern" && display == "completions") {
-      entry.innerHTML += `<p class="levelPos">#${item.Pos}</p>`;
+    
+      if (!level_position) {
+        level_position = "";
+      } else {level_position = `#${level_position}`};
+      
+      if (!item.ListPeak) {
+        ListPeak = "";
+      } else {item.ListPeak = `(#${item.ListPeak})`};
+      
+      if (item.Peak == 1) {
+        setPeakColour = "rgba(157, 157, 43, 1)";
+      } else {setPeakColour = "#888"}
+
+      if (!item.Peak) {
+        item.peak = "";
+      } else {item.Peak = `(#${item.Peak})`};
+      
+      
+      entry.innerHTML += `
+      <div class="levelPositions">
+        <p class="levelPos" title="Personal Placement">#${item.Pos}</p>
+        <p class="levelPeak" title="Peak Personal Placement" style="
+        color: ${setPeakColour}
+        ">${item.Peak}</p>
+      </div>
+      `;
     } else {
       if (!item.Progress) return;
       if (item.Hide) return;
@@ -341,16 +372,12 @@ function renderCard(item) {
       );
       entry.innerHTML += `
         <a href="${item.CompletionLink}" target="_blank" width="320" height="180">
-        <img src="https://img.youtube.com/vi/${completionID}/maxresdefault.jpg" width="320" height="180">
+        <img title="${item.Level} completion" src="https://img.youtube.com/vi/${completionID}/maxresdefault.jpg" width="320" height="180">
         </a>
       `;
     } else {
       entry.innerHTML += `
-      <div width="320" height="180"></div>`
-    }
-
-    if (!item.AREDL) {
-      item.AREDL = "?";
+      <div title="PLACEHOLDER!!! ${item.Level} showcase" width="320" height="180"></div>`
     }
 
     if (type == "classics" && styling == "modern" && display == "completions") {
@@ -363,43 +390,39 @@ function renderCard(item) {
        background-size: cover; background-position: center center;">
         <div class="levelDataUpper">
           <div class="levelDataLeft">
-            <p class="textLevel">${item.Level}</p>
-            <p class="textPublisher">by ${item.Publisher}</p>
+            <div class="levelName">
+             <p class="textLevel" title="Level name">${item.Level}</p>
+             <p class="textPosition" title="Current AREDL placement, (AREDL position at time of completion)">${level_position} ${item.ListPeak}</p>
+            </div>
+           <p class="textPublisher" title="Publisher of the level">by ${item.Publisher}</p>
 
-            <p class="textDate smallInfo">${item.Date}</p>
-            <p class="textAttempts smallInfo">${item.ATT} Att</p>
+            <p class="textDate smallInfo" title="Date completed">${item.Date}</p>
+            <p class="textAttempts smallInfo" title="Attempts taken">${item.ATT} Att</p>
           </div>
 
           <div class="levelDataRight">
-            <p class="textNLW" style="
+            <p class="textNLW" title="Non-Listworthy Tier (Includes List-Worthy)" style="
             background: var(--colour-tier-${item.NLW.replace(/\s+/g, '-')}"
             >${item.NLW}</p>
 
             <div class="levelDataBoxes">
-              <p class="boxAEM box" style=
+              <p class="boxAEM box" title="Azy Execution Metric v2 Tier (Personal Tiering System)" style=
               "background: var(--colour-aem-${item.AEM})"
               >A${item.AEM}</p>
 
-              <p class="boxGDDL box" style=
+              <p class="boxGDDL box" title="Geometry Dash Demon Ladder Tier" style=
               "background: var(--colour-tier-${item.GDDL})"
               >T${item.GDDL}</p>
 
-              <p class="boxENJ box" style=
+              <p class="boxENJ box" title="Enjoyment / Experience rating (out of 10)" style=
               "background: var(--colour-enj-${item.Enj})"
               >E${item.Enj}</p>
 
-              <p class="boxWF box" style=
+              <p class="boxWF box" title="Furthest Death (Worst Fail)" style=
               "background: var(--colour-wf-${item.WF.slice(0, -1)})"
               >${item.WF}</p>
             </div>
           </div>
-        </div>
-        <div class="levelDataLower">
-          <p class="textDate smallInfo" hidden>${item.Date}</p>
-          <p class="textAttempts smallInfo" hidden>${item.ATT} Att</p>
-          <p class="textAredlPos smallInfo" hidden>${item.ListPeak} Peak</p>
-          <p class="textPeak smallInfo" hidden>P${item.Peak}</p>
-          <p class="textAredl smallInfo" hidden>#${item.AREDL}</p>
         </div>
       </div>
       `;
@@ -414,42 +437,39 @@ function renderCard(item) {
        background-size: cover; background-position: center center;">
         <div class="levelDataUpper">
           <div class="levelDataLeft">
-            <p class="textLevel">${item.Level}</p>
-            <p class="textPublisher">by ${item.Publisher}</p>
+            <div class="levelName">
+             <p class="textLevel" title="Level name">${item.Level}</p>
+             <p class="textPosition" title="Current AREDL placement, (AREDL position at time of completion)">${level_position} ${item.ListPeak}</p>
+            </div>
+           <p class="textPublisher" title="Publisher of the level">by ${item.Publisher}</p>
 
-            <p class="textDate smallInfo">${item.Date}</p>
-            <p class="textAttempts smallInfo">${item.Time}</p>
+            <p class="textDate smallInfo" title="Date completed">${item.Date}</p>
+            <p class="textAttempts smallInfo" title="Time spent on First Completion">${item.Time} Att</p>
           </div>
 
           <div class="levelDataRight">
-            <p class="textNLW" style="
+            <p class="textNLW" title="Non-Listworthy Tier (Includes List-Worthy)" style="
             background: var(--colour-tier-${item.NLW.replace(/\s+/g, '-')}"
             >${item.NLW}</p>
 
             <div class="levelDataBoxes">
-              <p class="boxAEM box" style=
+              <p class="boxAEM box" title="Azy Execution Metric v2 Tier (Personal Tiering System)" style=
               "background: var(--colour-aem-${item.AEM})"
               >A${item.AEM}</p>
 
-              <p class="boxGDDL box" style=
+              <p class="boxGDDL box" title="Geometry Dash Demon Ladder Tier" style=
               "background: var(--colour-tier-${item.GDDL})"
               >T${item.GDDL}</p>
 
-              <p class="boxENJ box" style=
+              <p class="boxENJ box" title="Enjoyment / Experience rating (out of 10)" style=
               "background: var(--colour-enj-${item.Enj})"
               >E${item.Enj}</p>
             </div>
           </div>
         </div>
-        <div class="levelDataLower">
-          <p class="textDate smallInfo" hidden>${item.Date}</p>
-          <p class="textAttempts smallInfo" hidden>${item.ATT} Att</p>
-          <p class="textAredlPos smallInfo" hidden>${item.ListPeak} Peak</p>
-          <p class="textPeak smallInfo" hidden>P${item.Peak}</p>
-          <p class="textAredl smallInfo" hidden>#${item.AREDL}</p>
-        </div>
       </div>
       `;
+      
     } else if (styling == "modern" && display == "progress") {
       entry.innerHTML += `
         <div class="cardContainer" style="background: linear-gradient(
@@ -460,14 +480,15 @@ function renderCard(item) {
        background-size: cover; background-position: center center;">
         <div class="levelDataUpper" style="transform: translateY(-40px);">
           <div class="levelDataLeft">
-            <p class="textLevel">${item.Level}</p>
-            <p class="textPublisher">by ${item.Publisher}</p>
-          </div>
-          <div class="levelDataRight">
+            <div class="levelName">
+             <p class="textLevel" title="Level name">${item.Level}</p>
+             <p class="textPosition" title="Current AREDL position">#${level_position}</p>
+            </div>
+            <p class="textPublisher" title="Publisher of the level">by ${item.Publisher}</p>
           </div>
         </div>
         <div class="levelDataLower lowerProgress">
-            <p class="textProgress">${item.Progress}</p>
+            <p class="textProgress" title="Public progress I have on the level">${item.Progress}</p>
         </div>
       </div>
       `;

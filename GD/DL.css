@@ -179,6 +179,28 @@ input {
     grid-template-columns: 6fr 1fr;
 }
 
+.levelPositions {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    line-height: 0;
+    transform: translateY(30px);
+    & .levelPeak {
+        font-size: 20px;
+        transform: translateY(-30px);
+    }
+}
+
+.levelName {
+    display: flex;
+    & .textPosition {
+        align-self: center;
+        font-size: 20px;
+        margin-left: 10px;
+        color: rgba(255, 255, 255, 0.6);
+    }
+}
+
 .levelDataLower {
     display: flex;
     gap: 5%;
@@ -239,7 +261,7 @@ input {
 .levelPos {
     align-content: center;
     font-size: 50px;
-    color: #333;
+    color: #666;
     text-align: center;
 }
 
