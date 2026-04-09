@@ -83,12 +83,19 @@ h3 {
     display: flex;
     justify-content: center;
     gap: 10px;
-    & button {
+    & button, textarea {
+        padding: 0;
         border-radius: 10px;
         width: 140px;
         height: 30px;
         border: none;
     }
+}
+
+input {
+    color: black;
+    background-color: #bbb;
+    border-radius: 10px;
 }
 
 .optionsContainer {
@@ -125,6 +132,19 @@ h3 {
     line-height: 1;
 }
 
+.progress {
+    margin: 20px;
+    border-radius: 10px;
+    display: grid;
+    position: relative;
+    gap: 10px;
+    grid-template-columns: 200px 320px 1fr;
+    transform: translateX(-100px);
+}
+
+.textProgress {
+    font-size: 30px;
+}
 
 .smallInfo {
  color: rgba(255, 255, 255, 0.8);
@@ -163,15 +183,16 @@ h3 {
     display: flex;
     gap: 5%;
     position: absolute;
-    bottom: 5%;
+    bottom: 10%;
     width: 100%;
-  left: 50%;
-  transform: translateX(-49%);
+    left: 50%;
+    transform: translateX(-49%);
 }
 
 .levelDataLower p {
     font-size: 24px;
     margin: 0;
+    text-align: right;
 }
 
 .textNLW {

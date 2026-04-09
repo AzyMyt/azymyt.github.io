@@ -1,5 +1,3 @@
-// I WANT TO ADD LIKE A TIME MACHINE AND uh SORTING BY THINGS later
-
 const btnModern = document.getElementById("modern");
 const btnGrid = document.getElementById("grid");
 
@@ -8,6 +6,14 @@ const btnPlatformers = document.getElementById("platformers");
 
 const btnPersonal = document.getElementById("personal");
 const btnAredl = document.getElementById("aredl");
+
+const btnDateCurrent = document.getElementById("dateDisabled");
+const btnDateBefore = document.getElementById("dateBefore");
+const btnDateAfter = document.getElementById("dateAfter");
+const txtDateArea = document.getElementById("dateArea");
+
+const btnCompletions = document.getElementById("completions");
+const btnProgress = document.getElementById("progress");
 
 btnModern.addEventListener("click", () => {
   btnModern.style.backgroundColor = "#bbb";
@@ -47,18 +53,20 @@ btnClassics.addEventListener("click", () => {
   
   if (type == "classics") return;
   type = "classics"
+  getLevels();
   GenerateList();
 });
 
-btnPlatformers.addEventListener("click", () => {
+btnPlatformers.addEventListener("click", async () => {
   btnPlatformers.style.backgroundColor = "#bbb";
   btnPlatformers.style.color = "#000";
 
   btnClassics.style.backgroundColor = "#222";
   btnClassics.style.color = "#fff";
   
-  if (type == "classics") return;
-  type = "platformers"
+  if (type == "platformers") return;
+  type = "platformers" 
+  getLevels();
   GenerateList();
 });
 
@@ -67,7 +75,7 @@ btnClassics.style.color = "#000"
 btnPlatformers.style.backgroundColor = "#222";
 btnPlatformers.style.color = "#fff";
 
-btnPersonal.addEventListener("click", () => {
+btnPersonal.addEventListener("click", async () => {
   btnPersonal.style.backgroundColor = "#bbb";
   btnPersonal.style.color = "#000";
 
@@ -96,28 +104,130 @@ btnPersonal.style.color = "#000"
 btnAredl.style.backgroundColor = "#222";
 btnAredl.style.color = "#fff";
 
+btnDateBefore.addEventListener("click", () => {
+  btnDateBefore.style.backgroundColor = "#bbb";
+  btnDateBefore.style.color = "#000";
+
+  btnDateAfter.style.backgroundColor = "#222";
+  btnDateAfter.style.color = "#fff";
+  btnDateCurrent.style.backgroundColor = "#222";
+  btnDateCurrent.style.color = "#fff";
+  
+  if (checkDates == "before") return;
+  checkDates = "before";
+  GenerateList();
+});
+
+btnDateAfter.addEventListener("click", () => {
+  btnDateAfter.style.backgroundColor = "#bbb";
+  btnDateAfter.style.color = "#000";
+
+  btnDateBefore.style.backgroundColor = "#222";
+  btnDateBefore.style.color = "#fff";
+  btnDateCurrent.style.backgroundColor = "#222";
+  btnDateCurrent.style.color = "#fff";
+  
+  if (checkDates == "after") return;
+  checkDates = "after";
+  GenerateList();
+});
+
+btnDateCurrent.addEventListener("click", () => {
+  btnDateCurrent.style.backgroundColor = "#bbb";
+  btnDateCurrent.style.color = "#000";
+
+  btnDateBefore.style.backgroundColor = "#222";
+  btnDateBefore.style.color = "#fff";
+  btnDateAfter.style.backgroundColor = "#222";
+  btnDateAfter.style.color = "#fff";
+  
+  if (checkDates == "current") return;
+  checkDates = "current";
+  GenerateList();
+});
+
+txtDateArea.addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    
+    if (dateValue == txtDateArea.value) return;
+    dateValue = txtDateArea.value;
+    console.log(dateValue);
+    GenerateList();
+  }
+})
+
+btnDateCurrent.style.backgroundColor = "#bbb";
+btnDateCurrent.style.color = "#000"
+btnDateBefore.style.backgroundColor = "#222";
+btnDateBefore.style.color = "#fff";
+btnDateAfter.style.backgroundColor = "#222";
+btnDateAfter.style.color = "#fff";
+
+btnCompletions.addEventListener("click", () => {
+  btnCompletions.style.backgroundColor = "#bbb";
+  btnCompletions.style.color = "#000";
+
+  btnProgress.style.backgroundColor = "#222";
+  btnProgress.style.color = "#fff";
+  
+  if (display == "completions") return;
+  display = "completions"
+  GenerateList();
+});
+
+btnProgress.addEventListener("click", () => {
+  btnProgress.style.backgroundColor = "#bbb";
+  btnProgress.style.color = "#000";
+
+  btnCompletions.style.backgroundColor = "#222";
+  btnCompletions.style.color = "#fff";
+  
+  if (display == "progress") return;
+  display = "progress"
+  GenerateList();
+});
+
+btnCompletions.style.backgroundColor = "#bbb";
+btnCompletions.style.color = "#000";
+
+btnProgress.style.backgroundColor = "#222";
+btnProgress.style.color = "#fff";
+
+let display = "completions";
 let styling = "modern";
 let type = "classics";
 let sort = "personal";
+let checkDates = "current";
+let dateValue = 0;
 let currentStyle;
 let currentType;
 let currentSort;
+let response;
 
 async function aredlList() {
   try {
-    const response = await fetch("https://api.aredl.net/v2/api/aredl/levels", {
-      method: "GET",
-      headers: {
-        "Accept": "application/json"
-      }
-    });
+    if (type == "classics") {
+      response = await fetch("https://api.aredl.net/v2/api/aredl/levels", {
+        method: "GET",
+        headers: {
+          "Accept": "application/json"
+        }
+      });
+    } else if (type == "platformers"){
+      response = await fetch("https://api.aredl.net/v2/api/arepl/levels", {
+        method: "GET",
+        headers: {
+          "Accept": "application/json"
+        }
+      });
+    }
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const data = await response.json();
-
     
     console.log (data);
     return data;
@@ -130,14 +240,12 @@ async function aredlList() {
 
 let cachedLevels = null;
 async function getLevels() {
-  if (!cachedLevels) {
-    cachedLevels = await aredlList();
-  }
+  cachedLevels = await aredlList();
   return cachedLevels;
 }
 
 async function getLevelIdByName(name) {
-  const data = await getLevels();
+  const data = cachedLevels;
 
   const level = data.find(item => item.name === name);
   return level ? level.level_id : null;
@@ -146,9 +254,16 @@ async function getLevelIdByName(name) {
 const list = document.getElementById("list");
 let data;
 async function GenerateList() {
-  await getLevels();
-  const range =
+  if (!cachedLevels) await getLevels();
+  
+  console.log(`Styling: ${styling}\nType: ${type}\nSort: ${sort}\nDates: ${checkDates}\nDisplay: ${display}`)
+
+  let range =
     type === "classics" ? "Classics!A1:O200" : "Platformers!A1:M153";
+
+  if (display == "progress") {
+    range = "ProjectsNew!A1:D200";
+  }
   list.innerHTML = "";
 
   try {
@@ -162,7 +277,6 @@ async function GenerateList() {
       Object.fromEntries(row.map((v, i) => [headers[i], v])),
     );
 
-    console.log(data);
     data.forEach(renderCard);
 
     if (styling == "grid") {
@@ -191,35 +305,55 @@ function renderCard(item) {
   entry.classList.add("card");
   entry.classList.add(styling);
   entry.classList.add(type);
+  entry.classList.add(display);
 
   const level_id = getLevelIdByName(item.Level);
   
-  console.log("level:", item.Level, level_id);
+  //console.log("level:", item.Level, level_id);
 
   if (item.Level) {
-    if (styling == "modern") {
-      entry.innerHTML += `<p class="levelPos">#${item.Pos}</p>`;
+    
+    if (checkDates == "Before" && item.Date < dateValue) {
+      console.log("Item past specified date:", item.Level);
+      return;
+    } else if (checkDates == "After" && item.Date > dateValue) {
+      console.log("Item before specified date:", item.Level);
+      return;
     }
-    const completionID = item.CompletionLink.match(
-      /(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]{11})/,
-    )[1];
 
-    console.log(item.Record, item.CompletionLink, completionID);
-    entry.style.setProperty(
-      "--bg-url",
-      `url("https://img.youtube.com/vi/${completionID}/maxresdefault.jpg")`,
-    );
-    entry.innerHTML += `
-      <a href="${item.CompletionLink}" target="_blank" width="320" height="180">
-      <img src="https://img.youtube.com/vi/${completionID}/maxresdefault.jpg" width="320" height="180">
-      </a>
-    `;
+    if (styling == "modern" && display == "completions") {
+      entry.innerHTML += `<p class="levelPos">#${item.Pos}</p>`;
+    } else {
+      if (!item.Progress) return;
+      if (item.Hide) return;
+      entry.innerHTML += `<p></p>`
+    }
+
+    if (item.CompletionLink) {
+      const completionID = item.CompletionLink.match(
+        /(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]{11})/,
+      )[1];
+
+      //console.log(item.Level, item.CompletionLink, completionID);
+      entry.style.setProperty(
+        "--bg-url",
+        `url("https://img.youtube.com/vi/${completionID}/maxresdefault.jpg")`,
+      );
+      entry.innerHTML += `
+        <a href="${item.CompletionLink}" target="_blank" width="320" height="180">
+        <img src="https://img.youtube.com/vi/${completionID}/maxresdefault.jpg" width="320" height="180">
+        </a>
+      `;
+    } else {
+      entry.innerHTML += `
+      <div width="320" height="180"></div>`
+    }
 
     if (!item.AREDL) {
       item.AREDL = "?";
     }
 
-    if (type == "classics" && styling == "modern") {
+    if (type == "classics" && styling == "modern" && display == "completions") {
       entry.innerHTML += `
         <div class="cardContainer" style="background: linear-gradient(
         270deg,
@@ -270,27 +404,73 @@ function renderCard(item) {
       </div>
       `;
 
-    } else if (type == "platformers" && styling == "modern") {
-      //platformers
+    } else if (type == "platformers" && styling == "modern" && display == "completions") {
       entry.innerHTML += `
         <div class="cardContainer" style="background: linear-gradient(
         270deg,
         rgba(0, 0, 0, 0),
         rgba(5, 5, 5, 1)
-        ), url('https://img.youtube.com/vi/${completionID}/maxresdefault.jpg');
-        background-size: cover;">
-          <div class="container">
-            <div class="level">
-              <p class="textLevel">${item.Record}</p>
-              <p class="textPublisher">by ${item.Publisher}</p>
+       ), url('https://levelthumbs.prevter.me/thumbnail/${level_id}');
+       background-size: cover; background-position: center center;">
+        <div class="levelDataUpper">
+          <div class="levelDataLeft">
+            <p class="textLevel">${item.Level}</p>
+            <p class="textPublisher">by ${item.Publisher}</p>
+
+            <p class="textDate smallInfo">${item.Date}</p>
+            <p class="textAttempts smallInfo">${item.Time}</p>
+          </div>
+
+          <div class="levelDataRight">
+            <p class="textNLW" style="
+            background: var(--colour-tier-${item.NLW.replace(/\s+/g, '-')}"
+            >${item.NLW}</p>
+
+            <div class="levelDataBoxes">
+              <p class="boxAEM box" style=
+              "background: var(--colour-aem-${item.AEM})"
+              >A${item.AEM}</p>
+
+              <p class="boxGDDL box" style=
+              "background: var(--colour-tier-${item.GDDL})"
+              >T${item.GDDL}</p>
+
+              <p class="boxENJ box" style=
+              "background: var(--colour-enj-${item.Enj})"
+              >E${item.Enj}</p>
             </div>
           </div>
-          <div class="container victors">
-            <p class="firstVictor">${item.FirstVictor}</p>
-            <p class="followingVictors">${item.FollowingVictors}</p>
+        </div>
+        <div class="levelDataLower">
+          <p class="textDate smallInfo" hidden>${item.Date}</p>
+          <p class="textAttempts smallInfo" hidden>${item.ATT} Att</p>
+          <p class="textAredlPos smallInfo" hidden>${item.ListPeak} Peak</p>
+          <p class="textPeak smallInfo" hidden>P${item.Peak}</p>
+          <p class="textAredl smallInfo" hidden>#${item.AREDL}</p>
+        </div>
+      </div>
+      `;
+    } else if (styling == "modern" && display == "progress") {
+      entry.innerHTML += `
+        <div class="cardContainer" style="background: linear-gradient(
+        270deg,
+        rgba(0, 0, 0, 0),
+        rgba(5, 5, 5, 1)
+       ), url('https://levelthumbs.prevter.me/thumbnail/${level_id}');
+       background-size: cover; background-position: center center;">
+        <div class="levelDataUpper" style="transform: translateY(-40px);">
+          <div class="levelDataLeft">
+            <p class="textLevel">${item.Level}</p>
+            <p class="textPublisher">by ${item.Publisher}</p>
+          </div>
+          <div class="levelDataRight">
           </div>
         </div>
-        `;
+        <div class="levelDataLower lowerProgress">
+            <p class="textProgress">${item.Progress}</p>
+        </div>
+      </div>
+      `;
     }
   }
 
@@ -298,4 +478,3 @@ function renderCard(item) {
 }
 
 GenerateList();
-console.log(styling, type);
