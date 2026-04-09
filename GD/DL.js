@@ -345,6 +345,10 @@ function renderCard(item) {
         item.peak = "";
       } else {item.Peak = `(#${item.Peak})`};
       
+      if (!item.ATT) {
+        item.ATT = "";
+      } else {item.ATT = `${item.ATT} Att`}
+      
       
       entry.innerHTML += `
       <div class="levelPositions">
@@ -397,7 +401,7 @@ function renderCard(item) {
            <p class="textPublisher" title="Publisher of the level">by ${item.Publisher}</p>
 
             <p class="textDate smallInfo" title="Date completed">${item.Date}</p>
-            <p class="textAttempts smallInfo" title="Attempts taken">${item.ATT} Att</p>
+            <p class="textAttempts smallInfo" title="Attempts taken">${item.ATT}</p>
           </div>
 
           <div class="levelDataRight">
