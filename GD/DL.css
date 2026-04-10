@@ -47,12 +47,17 @@ h3 {
     display: grid;
     position: relative;
     gap: 10px;
-    grid-template-columns: 200px 320px 1fr;
-    transform: translateX(-100px);
+    grid-template-columns: 150px 320px 1fr 200px ;
+    /*transform: translateX(-100px);*/
 }
 
 .card img {
     border-radius: 10px;
+    align-content: center;
+}
+
+.demonFace {
+    transform: translate(20px, 50px);
 }
 
 .card > * {
@@ -324,6 +329,7 @@ input {
     --colour-tier-38:#300636;
     --colour-tier-39:#250630;
 
+    --colour-enj--: #888888;
     --colour-enj--1:#000000;
     --colour-enj-0:#ff8080;
     --colour-enj-1:#ff8f80;
@@ -338,6 +344,7 @@ input {
     --colour-enj-10:#80ff80;
     --colour-enj-11:#80d9cc;
 
+    --colour-wf--: #888888;
     --colour-wf-0: #60ff60;
     --colour-wf-1: #62fd60;
     --colour-wf-2: #64fb60;

@@ -259,13 +259,13 @@ async function GenerateList() {
   console.log(`Styling: ${styling}\nType: ${type}\nSort: ${sort}\nDates: ${checkDates}\nDisplay: ${display}`)
 
   let range =
-    type === "classics" ? "Classics!A1:O400" : "Platformers!A1:M400";
+    type === "classics" ? "Classics!A1:P400" : "Platformers!A1:O400";
 
   if (display == "progress") {
-    range = "ProjectsNew!A1:D200";
+    range = "ProjectsNew!A1:E200";
   }
   list.innerHTML = "";
-
+  
   try {
     const response = await fetch(
       `https://sheets.googleapis.com/v4/spreadsheets/1dIL3JjvLz9QGQPUxDUlIIZmjR2kRAXtgMel7Fyil-j4/values/${encodeURIComponent(range)}?key=AIzaSyCBmzuL3Z3NORg7j5Jtfq791Y8Hf7Yq0DU`,
@@ -305,6 +305,13 @@ function getLevelPositionByName(name) {
   return level ? level.position : null;
 }
 
+async function getGDDLShowcase(level_id) {
+  return // im a brick and cant figure it out lol
+  const res = await fetch(`https://gdladder.com/api/level/${level_id}`, { method: "GET" })
+  const data = await res.json()
+  return data.Showcase;
+}
+
 function renderCard(item) {
   entry = document.createElement("div");
   entry.classList.add("card");
@@ -312,13 +319,17 @@ function renderCard(item) {
   entry.classList.add(type);
   entry.classList.add(display);
 
-  const level_id = getLevelIdByName(item.Level);
   let level_position = getLevelPositionByName(item.Level);
+  if (item.ID) {
+    level_id = item.ID
+  } else {
+    level_id = getLevelIdByName(item.Level);
+  }
   
-  //console.log("level:", item.Level, level_id);
+  if (display == "progress" && !cachedLevels.find(i => i.name === item.Level)) return;
 
   if (item.Level) {
-    
+
     if (checkDates == "Before" && item.Date < dateValue) {
       console.log("Item past specified date:", item.Level);
       return;
@@ -369,7 +380,6 @@ function renderCard(item) {
         item.Date = "";
       }
       
-      
       entry.innerHTML += `
       <div class="levelPositions">
         <p class="levelPos" title="Personal Placement">#${item.Pos}</p>
@@ -400,8 +410,17 @@ function renderCard(item) {
         </a>
       `;
     } else {
+      const showcase = getGDDLShowcase(level_id);
+        entry.innerHTML += `
+        <div title="${item.Level} showcase" width="320" height="180"></div>
+      `
+      /*
       entry.innerHTML += `
-      <div title="PLACEHOLDER!!! ${item.Level} showcase" width="320" height="180"></div>`
+        <a href="https://youtube.com/watch?v=${showcase}" target="_blank" width="320" height="180">
+        <img title="${item.Level} showcase" src="https://img.youtube.com/vi/${showcase}/maxresdefault.jpg" width="320" height="180">
+        </a>
+      `;
+      */
     }
 
     if (type == "classics" && styling == "modern" && display == "completions") {
@@ -515,6 +534,20 @@ function renderCard(item) {
             <p class="textProgress" title="Public progress I have on the level">${item.Progress}</p>
         </div>
       </div>
+      `;
+    }
+    let demon;
+    switch (item.Demon) {
+      case "X": demon = "Extreme"; break;
+      case "I": demon = "Insane"; break;
+      case "H": demon = "Hard"; break;
+      case "M": demon = "Medium"; break;
+      case "E": demon = "Easy"; break;
+      }
+      
+    if (display != "progress") {
+      entry.innerHTML +=`
+        <img src="${item.Demon}.webp" class="demonFace" title="${demon} demon" height="80px"></img>
       `;
     }
   }
