@@ -280,7 +280,6 @@ input {
     justify-content: center;
     justify-items: center;
     width: 100%;
-    transform: translateX(100px);
 }
 
 .gridstyle > * {

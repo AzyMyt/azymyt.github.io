@@ -545,7 +545,7 @@ function renderCard(item) {
       case "E": demon = "Easy"; break;
       }
       
-    if (display != "progress") {
+    if (display != "progress" && styling != "grid") {
       entry.innerHTML +=`
         <img src="${item.Demon}.webp" class="demonFace" title="${demon} demon" height="80px"></img>
       `;
