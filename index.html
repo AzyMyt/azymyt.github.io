@@ -15,31 +15,21 @@
 <body>
     <div class="sidepane">
         Geometry Dash
-        <li><a href="GD/DL.html">Demon List</a></li>
-        <li><a href="GD/Spam.html">Spam timer</a></li>
-        <li>
-            <a href="https://AzyMyt.github.io/NIDL">NI Demon List</a>
-        </li>
+        <li><a href="GD/DL.html">Personal Demon List</a></li>
+        <li><a href="https://AzyMyt.github.io/NIDL">Northern Irish Demon List</a></li>
+        <li><a href="GD/Spam.html">Input timer</a></li>
         <br />
         Links
-        <li>
-            <a href="https://bsky.app/profile/did:plc:3y4qvukkxapfx7h7l5lju3di"
-                >Bluesky</a
-            >
-        </li>
+        <li><a href="https://bsky.app/profile/did:plc:3y4qvukkxapfx7h7l5lju3di">Bluesky</a></li>
         <li><a href="https://www.youtube.com/@AzyMyt">YouTube</a></li>
+        <li><a href="https://www.x.com/@azymyy">Twitter</a></li>
         <li><a href="https://github.com/AzyMyt">GitHub</a></li>
-
         <li><a href="https://gdladder.com/profile/9637">GDDL</a></li>
         <li><a href="https://aredl.net/profile/user/azymyt">AREDL</a></li>
         <li><a href="https://gdbrowser.com/u/azymyt">GD Browser</a></li>
-        <li>
-            <a
-                href="https://pointercrate.com/demonlist/statsviewer/?player=61903"
-                >PointerCrate</a
-            >
-        </li>
+        <li><a href="https://pointercrate.com/demonlist/statsviewer/?player=61903">PointerCrate</a></li>
         <li><a href="https://osu.ppy.sh/users/18913918">Osu!</a></li>
+        <br />
     </div>
 
     <div class="maincontents">
@@ -57,6 +47,8 @@
         Decent at Osu!Mania as well.<br><br>
 
         Everything linked here is related to me or anything I have made in some way.
+       <br><br> 
+        Any art should be present on both my Bluesky and Twitter.
         </p>
     </div>
 
@@ -66,18 +58,27 @@
 <style>
     * {
         font-family: monospace;
-        font-size: 16px;
+        font-size: 1vw;
         margin: 0;
     }
 
     body {
         display: grid;
-        grid-template-columns: 250px 1fr 30%;
-        gap: 20px;
+        grid-template-columns: 1fr 2fr 30%;
+        gap: 2vw;
     }
 
     li {
         list-style: none;
+        transform-origin: center;
+        transition: 0.15s;
+        background-color: rgb(0, 0, 0, 0.05);
+        border-radius: 0.2vw;
+        max-width: 95%;
+    }
+
+    li:hover {
+        transform: translateX(1vw);
     }
 
     li::before {
@@ -90,12 +91,13 @@
         padding-top: 20px;
         padding-left: 20px;
         padding-right: 20px;
-        background-color: #443;
+        background-color: rgb(68, 68, 51);
         height: 100vh;
     }
 
     .sidepane * {
         color: white;
+        margin-bottom: 0.2vw;
     }
 
     .maincontents {
